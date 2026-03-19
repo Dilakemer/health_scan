@@ -38,3 +38,33 @@ export function normalizeImageText(rawText: string): string {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
+
+const ingredientSignalPatterns = [
+  /\bicindekiler\b/i,
+  /\bingredients?\b/i,
+  /\bcontains?\b/i,
+  /\balerjen\b/i,
+  /\ballergen\b/i,
+  /\be\s?\d{3}\b/i,
+  /[,;:\n]/,
+];
+
+// Helps detect whether OCR text likely comes from an ingredient label.
+export function isLikelyIngredientText(text: string): boolean {
+  const normalized = normalizeImageText(text).toLowerCase();
+  if (normalized.length < 24) {
+    return false;
+  }
+
+  const signalCount = ingredientSignalPatterns.reduce(
+    (count, pattern) => (pattern.test(normalized) ? count + 1 : count),
+    0,
+  );
+
+  const tokenCount = normalized
+    .split(/[\n,;:.()\[\]-]+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length >= 2).length;
+
+  return signalCount >= 2 && tokenCount >= 4;
+}

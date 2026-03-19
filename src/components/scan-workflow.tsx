@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { extractText, normalizeImageText } from "@/lib/ocr";
+import { extractText, isLikelyIngredientText, normalizeImageText } from "@/lib/ocr";
 import { parseIngredients } from "@/lib/ingredient-engine";
 import { tr } from "@/i18n/tr";
 
@@ -226,7 +226,14 @@ export function ScanWorkflow() {
         return;
       }
 
-      setOcrText(normalizeImageText(result.text));
+      const normalizedText = normalizeImageText(result.text);
+      if (!isLikelyIngredientText(normalizedText)) {
+        setError(tr.scan.irrelevantImage);
+        setStep("upload");
+        return;
+      }
+
+      setOcrText(normalizedText);
       setStep("analyze");
     } catch (ocrError) {
       setError(ocrError instanceof Error ? ocrError.message : tr.scan.ocrFailed);

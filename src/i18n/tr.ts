@@ -134,6 +134,7 @@ export const tr = {
     allowedFormats: "Sadece JPEG, PNG ve WEBP formatları desteklenir.",
     maxSize: "Görsel boyutu en fazla 10MB olabilir.",
     lowConfidence: "Metin okuma güveni düşük. Lütfen daha net bir fotoğraf çekin.",
+    irrelevantImage: "Bu görsel içindekiler etiketi gibi görünmüyor. Lütfen ürünün içindekiler bölümünü yükleyin.",
     ocrFailed: "Metin okuma başarısız oldu.",
     parseFailed: "İçerik listesi çıkarılamadı. Metni düzenleyip tekrar deneyin.",
     analyzeFailed: "Analiz sırasında bir hata oluştu.",
