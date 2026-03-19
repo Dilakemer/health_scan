@@ -562,10 +562,20 @@ export function analyzeIngredients(
     let matchedRule = rules.find((rule) => {
       const options = [rule.ingredient_name, ...(rule.aliases ?? [])].map(normalizeToken);
       return options.some(
-        (option) =>
-          option === normalizedIngredient ||
-          normalizedIngredient.includes(option) ||
-          option.includes(normalizedIngredient),
+        (option) => {
+          if (option === normalizedIngredient) {
+            return true;
+          }
+
+          if (option.length < 4 || normalizedIngredient.length < 4) {
+            return false;
+          }
+
+          return (
+            normalizedIngredient.includes(option) ||
+            option.includes(normalizedIngredient)
+          );
+        },
       );
     });
 
@@ -635,7 +645,7 @@ export function analyzeIngredients(
         ingredient,
         disease,
         severity: matchedRule.severity,
-        reason: matchedRule.reason ?? "Potential conflict detected.",
+        reason: matchedRule.reason ?? "Olası içerik çakışması tespit edildi.",
       });
     });
 
