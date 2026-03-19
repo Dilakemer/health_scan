@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { continueAsGuestAction } from "@/app/(auth)/actions";
+import { FormSubmitButton } from "@/components/form-submit-button";
 import { tr } from "@/i18n/tr";
 import { createClient } from "@/lib/supabase/server";
 
@@ -22,12 +24,13 @@ export default async function Home() {
           <h1 className="mt-3 text-3xl font-semibold text-slate-50 sm:text-5xl">{tr.home.title}</h1>
           <p className="mt-4 text-sm text-slate-200 sm:text-base">{tr.home.subtitle}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/register"
-              className="rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
-            >
-              {tr.home.primaryCta}
-            </Link>
+            <form action={continueAsGuestAction}>
+              <FormSubmitButton
+                idleLabel={tr.home.primaryCta}
+                pendingLabel={tr.home.primaryCtaPending}
+                className="rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
+              />
+            </form>
             <Link
               href="/login"
               className="rounded-xl border border-cyan-300/50 bg-cyan-500/10 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-500/20"

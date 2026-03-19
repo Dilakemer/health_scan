@@ -4,6 +4,7 @@ export const tr = {
     title: "İçindekiler Bölümünü Tara, Sana Uygunluğu Hemen Gör",
     subtitle: "Health Scan; yiyeceğin içindekiler bölümünü OCR ile okuyup içeriği, sağlık profilinle karşılaştırır. Böylece riskli içerikleri ürün tüketmeden önce fark edip daha güvenli karar verebilirsin.",
     primaryCta: "Hemen başla",
+    primaryCtaPending: "Misafir girişi başlatılıyor...",
     secondaryCta: "Giriş yap",
     steps: {
       scan: {
