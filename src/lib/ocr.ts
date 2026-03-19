@@ -39,8 +39,22 @@ export function normalizeImageText(rawText: string): string {
     .trim();
 }
 
+function foldForMatch(value: string): string {
+  return value
+    .replace(/[ıİ]/g, "i")
+    .replace(/[şŞ]/g, "s")
+    .replace(/[ğĞ]/g, "g")
+    .replace(/[üÜ]/g, "u")
+    .replace(/[öÖ]/g, "o")
+    .replace(/[çÇ]/g, "c")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 const ingredientSignalPatterns = [
   /\bicindekiler\b/i,
+  /\bicerik\b/i,
   /\bingredients?\b/i,
   /\bcontains?\b/i,
   /\balerjen\b/i,
@@ -51,7 +65,7 @@ const ingredientSignalPatterns = [
 
 // Helps detect whether OCR text likely comes from an ingredient label.
 export function isLikelyIngredientText(text: string): boolean {
-  const normalized = normalizeImageText(text).toLowerCase();
+  const normalized = foldForMatch(normalizeImageText(text));
   if (normalized.length < 24) {
     return false;
   }
@@ -66,5 +80,6 @@ export function isLikelyIngredientText(text: string): boolean {
     .map((part) => part.trim())
     .filter((part) => part.length >= 2).length;
 
-  return signalCount >= 2 && tokenCount >= 4;
+  // Keep this permissive to avoid rejecting real ingredient photos.
+  return (signalCount >= 1 && tokenCount >= 6) || (signalCount >= 2 && tokenCount >= 4);
 }

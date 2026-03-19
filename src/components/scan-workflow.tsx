@@ -227,7 +227,8 @@ export function ScanWorkflow() {
       }
 
       const normalizedText = normalizeImageText(result.text);
-      if (!isLikelyIngredientText(normalizedText)) {
+      const parsedIngredients = parseIngredients(normalizedText);
+      if (!isLikelyIngredientText(normalizedText) && parsedIngredients.length < 3) {
         setError(tr.scan.irrelevantImage);
         setStep("upload");
         return;
