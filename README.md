@@ -1,5 +1,7 @@
 # Health Scan
 
+Live Link: https://health-scan-puce.vercel.app/
+
 Health Scan is a rule-based food label analyzer built with Next.js, Supabase, and Tesseract.js.
 
 The app extracts ingredient text from product photos, compares content against user-specific health profiles (allergies and chronic conditions), and produces an explainable risk result.
