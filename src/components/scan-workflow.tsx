@@ -321,6 +321,7 @@ export function ScanWorkflow() {
 
         <div className="relative mt-5 rounded-2xl border border-cyan-200/25 bg-slate-950/35 p-5">
           <p className="text-sm text-slate-300">{tr.scan.chooserHint}</p>
+          <p className="mt-2 text-xs text-cyan-100/90">{tr.scan.captureTip}</p>
           <div className="mt-3 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
             <button
               type="button"
