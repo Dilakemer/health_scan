@@ -52,6 +52,7 @@ function prettifyDisease(disease: string): string {
     gastrit: "Gastrit / Mide hassasiyeti",
     colyak: "Çölyak",
     "laktoz intoleransi": "Laktoz intoleransı",
+    "genel saglik": "Genel sağlık",
   };
   return map[disease] ?? toTitleCase(disease);
 }

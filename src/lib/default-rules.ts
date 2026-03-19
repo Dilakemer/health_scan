@@ -2,6 +2,34 @@ import type { IngredientRule } from "@/lib/ingredient-engine";
 
 export const fallbackIngredientRules: IngredientRule[] = [
   {
+    ingredient_name: "partially hydrogenated oils",
+    aliases: ["kismen hidrojenize yag", "hidrojenize bitkisel yag", "trans yag", "trans fat"],
+    harmful_for: ["genel saglik"],
+    severity: "critical",
+    reason: "Trans-fat source with elevated cardiovascular risk.",
+  },
+  {
+    ingredient_name: "sodium nitrite",
+    aliases: ["sodyum nitrit", "e250"],
+    harmful_for: ["genel saglik"],
+    severity: "warning",
+    reason: "Frequent intake of nitrite preservatives is not recommended.",
+  },
+  {
+    ingredient_name: "sodium nitrate",
+    aliases: ["sodyum nitrat", "e251", "e252"],
+    harmful_for: ["genel saglik", "hipertansiyon"],
+    severity: "warning",
+    reason: "Frequent intake of nitrate preservatives is not recommended.",
+  },
+  {
+    ingredient_name: "high fructose corn syrup",
+    aliases: ["fruktoz glukoz surubu", "misir surubu", "high fructose corn syrup", "invert seker surubu"],
+    harmful_for: ["genel saglik", "diyabet"],
+    severity: "warning",
+    reason: "High refined sugar load may adversely affect metabolic health.",
+  },
+  {
     ingredient_name: "sugar",
     aliases: ["seker", "toz seker", "glikoz", "fruktoz", "dekstroz", "glukoz surubu", "invert seker surubu", "misir surubu"],
     harmful_for: ["diyabet"],
