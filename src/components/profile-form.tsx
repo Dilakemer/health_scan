@@ -25,6 +25,7 @@ export function ProfileForm({ initialDiseases, initialAllergies }: ProfileFormPr
   const [selectedDiseases, setSelectedDiseases] = useState<string[]>(initialDiseases);
   const [allergiesInput, setAllergiesInput] = useState(initialAllergies.join(", "));
   const [status, setStatus] = useState<string>("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const diseaseOptions = useMemo(() => defaultDiseases, []);
 
@@ -35,25 +36,34 @@ export function ProfileForm({ initialDiseases, initialAllergies }: ProfileFormPr
   };
 
   const saveProfile = async () => {
+    if (isSaving) {
+      return;
+    }
+
+    setIsSaving(true);
     setStatus(tr.profile.saving);
     const allergies = allergiesInput
       .split(",")
       .map((item) => item.trim())
       .filter(Boolean);
 
-    const response = await fetch("/api/profile", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ diseases: selectedDiseases, allergies }),
-    });
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ diseases: selectedDiseases, allergies }),
+      });
 
-    if (!response.ok) {
-      const payload = (await response.json()) as { error?: unknown };
-      setStatus(`${tr.profile.errorPrefix} ${String(payload.error ?? "Bilinmeyen hata")}`);
-      return;
+      if (!response.ok) {
+        const payload = (await response.json()) as { error?: unknown };
+        setStatus(`${tr.profile.errorPrefix} ${String(payload.error ?? "Bilinmeyen hata")}`);
+        return;
+      }
+
+      setStatus(tr.profile.saved);
+    } finally {
+      setIsSaving(false);
     }
-
-    setStatus(tr.profile.saved);
   };
 
   return (
@@ -91,9 +101,10 @@ export function ProfileForm({ initialDiseases, initialAllergies }: ProfileFormPr
         <button
           type="button"
           onClick={saveProfile}
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+          disabled={isSaving}
+          className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-400"
         >
-          {tr.profile.save}
+          {isSaving ? tr.profile.saving : tr.profile.save}
         </button>
         <span className="text-sm text-slate-600">{status}</span>
       </div>

@@ -69,6 +69,56 @@ npm run build
 npm run lint
 ```
 
+## Deployment (Vercel - Recommended)
+
+This project is a Next.js app and can be deployed to Vercel in a few minutes.
+
+1. Push the repository to GitHub.
+
+2. Import the project into Vercel
+
+- Go to https://vercel.com/new
+- Select your repository
+- Set the root directory to `health-scan` (if your repository contains multiple folders)
+
+3. Add environment variables in Vercel Project Settings -> Environment Variables
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+Use the same values you use in your local `.env.local`.
+
+4. Deploy
+
+- Click Deploy and wait for the first production build.
+- Vercel will provide a public URL like `https://your-project.vercel.app`.
+
+5. Configure Supabase for production domain
+
+In Supabase Dashboard:
+
+- Authentication -> URL Configuration -> Site URL:
+	set this to your Vercel production URL.
+- Authentication -> URL Configuration -> Redirect URLs:
+	add your Vercel production URL and preview URL pattern if needed.
+
+6. Share your link
+
+Once deployed, your app is publicly reachable 24/7 from the Vercel URL.
+
+### Optional: Custom Domain
+
+- Add your own domain from Vercel Project Settings -> Domains.
+- Then update Supabase Auth URL settings to this custom domain.
+
+### If Build Fails on Deploy
+
+- Ensure SQL scripts were applied in Supabase:
+	- `supabase/schema.sql`
+	- `supabase/seed.sql`
+- Ensure bucket `scan-images` exists and is public.
+- Ensure Anonymous provider is enabled in Supabase Auth (if guest mode is used).
+
 ## Screenshots
 
 ### Scan and Analysis UI

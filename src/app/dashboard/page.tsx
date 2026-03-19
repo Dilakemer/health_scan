@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { logoutAction } from "@/app/(auth)/actions";
+import { FormSubmitButton } from "@/components/form-submit-button";
 import { ProfileForm } from "@/components/profile-form";
 import { ScanHistoryList } from "@/components/scan-history-list";
 import { tr } from "@/i18n/tr";
@@ -46,9 +47,11 @@ export default async function DashboardPage() {
             {tr.dashboard.newScan}
           </Link>
           <form action={logoutAction}>
-            <button type="submit" className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-100 hover:bg-white/10">
-              {tr.dashboard.signOut}
-            </button>
+            <FormSubmitButton
+              idleLabel={tr.dashboard.signOut}
+              pendingLabel={tr.dashboard.signingOut}
+              className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-100 hover:bg-white/10"
+            />
           </form>
         </div>
       </header>

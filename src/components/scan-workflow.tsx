@@ -126,6 +126,7 @@ export function ScanWorkflow() {
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
   const [error, setError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isReadingText, setIsReadingText] = useState(false);
 
   const ingredientList = useMemo(() => parseIngredients(ocrText), [ocrText]);
   const ingredientBuckets = useMemo(() => {
@@ -210,6 +211,7 @@ export function ScanWorkflow() {
 
     setStep("ocr");
     setError("");
+    setIsReadingText(true);
 
     try {
       const result = await extractText(imageFile, (progress, status) => {
@@ -228,6 +230,8 @@ export function ScanWorkflow() {
     } catch (ocrError) {
       setError(ocrError instanceof Error ? ocrError.message : tr.scan.ocrFailed);
       setStep("upload");
+    } finally {
+      setIsReadingText(false);
     }
   };
 
@@ -288,6 +292,7 @@ export function ScanWorkflow() {
     setOcrText("");
     setAnalysis(null);
     setIsAnalyzing(false);
+    setIsReadingText(false);
     setError("");
   };
 
@@ -356,15 +361,16 @@ export function ScanWorkflow() {
           <button
             type="button"
             onClick={runOcr}
-            className="rounded-xl border border-sky-300/40 bg-sky-500/20 px-4 py-2 text-sm font-medium text-sky-50 transition hover:bg-sky-500/35"
+            className="rounded-xl border border-sky-300/40 bg-sky-500/20 px-4 py-2 text-sm font-medium text-sky-50 transition hover:bg-sky-500/35 disabled:cursor-not-allowed disabled:border-sky-900/50 disabled:bg-sky-900/30 disabled:text-sky-200/60"
+            disabled={!imageFile || isReadingText || isAnalyzing}
           >
-            {tr.scan.readText}
+            {isReadingText ? tr.scan.readingText : tr.scan.readText}
           </button>
           <button
             type="button"
             onClick={runAnalyze}
             className="rounded-xl border border-emerald-300/40 bg-emerald-500/25 px-4 py-2 text-sm font-medium text-emerald-50 transition hover:bg-emerald-500/40 disabled:cursor-not-allowed disabled:border-emerald-900/50 disabled:bg-emerald-900/30 disabled:text-emerald-200/60"
-            disabled={ingredientList.length === 0 || isAnalyzing}
+            disabled={ingredientList.length === 0 || isAnalyzing || isReadingText}
           >
             {isAnalyzing ? tr.scan.analyzing : tr.scan.analyze}
           </button>
@@ -389,6 +395,12 @@ export function ScanWorkflow() {
         {step === "ocr" ? (
           <div className="mt-4 rounded-lg border border-cyan-300/30 bg-cyan-500/10 p-3 text-sm text-cyan-100">
             {tr.scan.ocrProgressPrefix}: {ocrProgress}%
+          </div>
+        ) : null}
+
+        {isReadingText ? (
+          <div className="mt-4 rounded-lg border border-sky-300/30 bg-sky-500/10 p-3 text-sm text-sky-100">
+            {tr.scan.readingTextHint}
           </div>
         ) : null}
 
