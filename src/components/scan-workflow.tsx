@@ -19,7 +19,10 @@ type AnalysisResponse = {
 
 type Step = "upload" | "ocr" | "analyze" | "result";
 
-const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+// Yükleme butonu için izin verilen formatlar
+const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
+// Kamera girişi daha geniş format desteğine sahip (preprocessImage dönüştürür)
+const cameraAllowedMimePrefix = "image/";
 
 const stepLabels: Record<Step, string> = {
   upload: tr.scan.steps.upload,
@@ -184,19 +187,20 @@ export function ScanWorkflow() {
     };
   }, [analysis]);
 
-  const onImageChange = (file: File | null) => {
+  const onImageChange = (file: File | null, fromCamera = false) => {
     setError("");
     if (!file) {
       setImageFile(null);
       return;
     }
 
-    if (!allowedMimeTypes.includes(file.type)) {
+    // Kamera görüntüleri preprocessImage tarafından dönüştürülür; format kısıtlaması gerekmez
+    if (!fromCamera && !allowedMimeTypes.includes(file.type) && !file.type.startsWith(cameraAllowedMimePrefix)) {
       setError(tr.scan.allowedFormats);
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       setError(tr.scan.maxSize);
       return;
     }
@@ -220,7 +224,9 @@ export function ScanWorkflow() {
         setOcrStatus(status);
       });
 
-      if (result.confidence < 60) {
+      // Kamera görüntüleri düşük confidence verebilir (baskılı metin, açı, ışık)
+      // Bu yüzden eşiği 30'a indiriyoruz; tamamen boş metin yine de reddedilir
+      if (result.confidence < 30 && result.text.trim().length < 10) {
         setError(tr.scan.lowConfidence);
         setStep("upload");
         return;
@@ -363,7 +369,7 @@ export function ScanWorkflow() {
             type="file"
             accept="image/*"
             capture="environment"
-            onChange={(event) => onImageChange(event.target.files?.[0] ?? null)}
+            onChange={(event) => onImageChange(event.target.files?.[0] ?? null, true)}
           />
         </div>
 
