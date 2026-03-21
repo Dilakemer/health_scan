@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { HelpCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import { continueAsGuestAction } from "@/app/(auth)/actions";
 import { FormSubmitButton } from "@/components/form-submit-button";
 import { tr } from "@/i18n/tr";
 import { createClient } from "@/lib/supabase/server";
+import { OnboardingTour } from "@/components/onboarding-tour";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,15 +17,16 @@ export default async function Home() {
 
   return (
     <main className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10">
+      <OnboardingTour page="home" />
       <section className="surface-glass shine-border fade-slide-in relative overflow-hidden rounded-3xl p-7 sm:p-10">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 left-1/3 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
 
-        <div className="relative max-w-3xl">
+        <div id="tour-home-start" className="relative max-w-3xl">
           <p className="text-xs uppercase tracking-[0.26em] text-cyan-200/90">{tr.home.badge}</p>
           <h1 className="mt-3 text-3xl font-semibold text-slate-50 sm:text-5xl">{tr.home.title}</h1>
           <p className="mt-4 text-sm text-slate-200 sm:text-base">{tr.home.subtitle}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div id="tour-home-cta" className="mt-6 flex flex-wrap gap-3">
             <form action={continueAsGuestAction}>
               <FormSubmitButton
                 idleLabel={tr.home.primaryCta}
@@ -37,11 +40,19 @@ export default async function Home() {
             >
               {tr.home.secondaryCta}
             </Link>
+            <Link
+              href="?tour=true"
+              className="flex items-center gap-2 rounded-xl border border-cyan-300/30 bg-white/5 px-4 py-3 text-sm font-medium text-cyan-100 transition hover:bg-white/10"
+              title={tr.home.help}
+            >
+              <HelpCircle size={18} />
+              <span className="hidden sm:inline">{tr.home.help}</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section id="tour-home-steps" className="grid gap-4 md:grid-cols-3">
         <article className="surface-glass fade-slide-in stagger-1 rounded-2xl p-5">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">1</p>
           <h2 className="mt-2 text-lg font-semibold text-slate-50">{tr.home.steps.scan.title}</h2>

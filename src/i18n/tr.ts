@@ -26,6 +26,7 @@ export const tr = {
       "Her uyarı için neden ve etkilenen durum bilgisi",
       "Taramaları geçmişte saklayıp ürünleri kıyaslama imkanı",
     ],
+    help: "Yardım",
   },
   auth: {
     loginTitle: "Giriş yap",
@@ -59,6 +60,7 @@ export const tr = {
     safeResults: "Güvenli sonuç",
     riskyResults: "Riskli sonuç",
     historyTitle: "Geçmiş taramalar",
+    help: "Yardım",
   },
   profile: {
     title: "Sağlık profili",
@@ -149,4 +151,33 @@ export const tr = {
     delete: "Sil",
     result: "Sonuç",
   },
+  tour: {
+    next: "İleri",
+    back: "Geri",
+    skip: "Kapat",
+    close: "Kapat",
+    last: "Bitir",
+    home: {
+      introTitle: "Health Scan'e Hoş Geldiniz!",
+      intro: "Bu kısa tur sayesinde uygulamayı nasıl kullanacağınızı ve sağlığınızı nasıl koruyacağınızı öğrenebilirsiniz.",
+      startTitle: "Hemen Başla",
+      start: "Yiyeceklerin içindekiler bölümünü tarayıp size uygunluğunu görebilirsiniz.",
+      stepsTitle: "Nasıl Çalışır?",
+      steps: "Bu 3 basit adımı izleyerek sağlığınız için daha güvenli kararlar alabilirsiniz.",
+      ctaTitle: "Hemen Deneyin",
+      cta: "Misafir olarak devam ederek hemen bir tarama başlatabilir veya giriş yaparak profilinizi oluşturabilirsiniz."
+    },
+    dashboard: {
+      introTitle: "Panele Hoş Geldiniz!",
+      intro: "Burası sizin kişisel sağlık merkeziniz. Taramalarınızı ve profilinizi buradan yönetebilirsiniz.",
+      statsTitle: "İstatistikleriniz",
+      stats: "Buradan toplam yaptığınız taramaları, güvenli ve riskli sonuçlarınızı görebilirsiniz.",
+      profileTitle: "Sağlık Profiliniz",
+      profile: "Alerji ve hastalık bilgilerinizi buradan kaydedin. Taramalar bu bilgilere göre kişiselleştirilir.",
+      historyTitle: "Geçmiş Taramalar",
+      history: "Daha önce yaptığınız taramaların sonuçlarına buradan ulaşabilirsiniz.",
+      newScanTitle: "Yeni Tarama",
+      newScan: "Buradan yeni bir ürün taraması başlatabilirsiniz."
+    }
+  }
 } as const;

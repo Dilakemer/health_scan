@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HelpCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import { logoutAction } from "@/app/(auth)/actions";
 import { FormSubmitButton } from "@/components/form-submit-button";
@@ -6,6 +7,7 @@ import { ProfileForm } from "@/components/profile-form";
 import { ScanHistoryList } from "@/components/scan-history-list";
 import { tr } from "@/i18n/tr";
 import { createClient } from "@/lib/supabase/server";
+import { OnboardingTour } from "@/components/onboarding-tour";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -34,6 +36,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto w-full max-w-6xl space-y-6 px-6 py-8">
+      <OnboardingTour page="dashboard" />
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-slate-100">{tr.dashboard.title}</h1>
@@ -41,6 +44,7 @@ export default async function DashboardPage() {
         </div>
         <div className="flex items-center gap-3">
           <Link
+            id="tour-dashboard-new-scan"
             href="/scan"
             className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-emerald-400"
           >
@@ -53,10 +57,17 @@ export default async function DashboardPage() {
               className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-100 hover:bg-white/10"
             />
           </form>
+          <Link
+            href="?tour=true"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-600 text-slate-100 hover:bg-white/10"
+            title={tr.dashboard.help}
+          >
+            <HelpCircle size={18} />
+          </Link>
         </div>
       </header>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section id="tour-dashboard-stats" className="grid gap-4 md:grid-cols-3">
         <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <p className="text-sm text-slate-500">{tr.dashboard.totalScans}</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{history?.length ?? 0}</p>
@@ -71,12 +82,14 @@ export default async function DashboardPage() {
         </article>
       </section>
 
-      <ProfileForm
-        initialDiseases={profile?.diseases ?? []}
-        initialAllergies={profile?.allergies ?? []}
-      />
+      <div id="tour-dashboard-profile">
+        <ProfileForm
+          initialDiseases={profile?.diseases ?? []}
+          initialAllergies={profile?.allergies ?? []}
+        />
+      </div>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section id="tour-dashboard-history" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900">{tr.dashboard.historyTitle}</h2>
         <ScanHistoryList initialItems={history ?? []} />
       </section>
