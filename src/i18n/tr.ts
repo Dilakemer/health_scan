@@ -88,7 +88,7 @@ export const tr = {
     readingText: "Okunuyor...",
     readText: "İçindekilerden metni oku",
     analyzing: "Analiz ediliyor...",
-    analyze: "İçerik analiz ediliyor...",
+    analyze: "İçerik analiz et",
     reset: "Sıfırla",
     productName: "Ürün adı",
     ocrProgressPrefix: "Metin okuma ilerleme",
