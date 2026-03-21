@@ -328,7 +328,7 @@ export function ScanWorkflow() {
         <p className="relative mt-2 text-sm text-slate-300">{tr.scan.stepPrefix}: {stepLabels[step]} | {tr.scan.ocrStatusPrefix}: {ocrStatus}</p>
         <p className="relative mt-2 text-xs text-cyan-100/90">{tr.scan.coverageHint}</p>
 
-        <div className="relative mt-5 rounded-2xl border border-cyan-200/25 bg-slate-950/35 p-5">
+        <div id="tour-scan-upload" className="relative mt-5 rounded-2xl border border-cyan-200/25 bg-slate-950/35 p-5">
           <p className="text-sm text-slate-300">{tr.scan.chooserHint}</p>
           <p className="mt-2 text-xs text-cyan-100/90">{tr.scan.captureTip}</p>
           <div className="mt-3 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
@@ -369,6 +369,7 @@ export function ScanWorkflow() {
 
         <div className="mt-4 flex flex-wrap gap-3">
           <button
+            id="tour-scan-ocr"
             type="button"
             onClick={runOcr}
             className="rounded-xl border border-sky-300/40 bg-sky-500/20 px-4 py-2 text-sm font-medium text-sky-50 transition hover:bg-sky-500/35 disabled:cursor-not-allowed disabled:border-sky-900/50 disabled:bg-sky-900/30 disabled:text-sky-200/60"
@@ -377,6 +378,7 @@ export function ScanWorkflow() {
             {isReadingText ? tr.scan.readingText : tr.scan.readText}
           </button>
           <button
+            id="tour-scan-analyze"
             type="button"
             onClick={runAnalyze}
             className="rounded-xl border border-emerald-300/40 bg-emerald-500/25 px-4 py-2 text-sm font-medium text-emerald-50 transition hover:bg-emerald-500/40 disabled:cursor-not-allowed disabled:border-emerald-900/50 disabled:bg-emerald-900/30 disabled:text-emerald-200/60"
@@ -393,7 +395,7 @@ export function ScanWorkflow() {
           </button>
         </div>
 
-        <label className="mt-4 block text-sm text-slate-200">
+        <label id="tour-scan-name" className="mt-4 block text-sm text-slate-200">
           {tr.scan.productName}
           <input
             value={productName}
@@ -426,7 +428,7 @@ export function ScanWorkflow() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="surface-glass shine-border fade-slide-in stagger-2 rounded-2xl p-6">
+        <section id="tour-scan-preview" className="surface-glass shine-border fade-slide-in stagger-2 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-slate-50">Algılanan metin önizlemesi</h3>
           <textarea
             value={ocrText}
@@ -436,7 +438,7 @@ export function ScanWorkflow() {
           />
         </section>
 
-        <section className="surface-glass shine-border fade-slide-in stagger-3 rounded-2xl p-6">
+        <section id="tour-scan-categories" className="surface-glass shine-border fade-slide-in stagger-3 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-slate-50">{tr.scan.advancedIngredients}</h3>
           <div className="mt-3 max-h-56 space-y-3 overflow-auto">
             {(

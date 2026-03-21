@@ -6,7 +6,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { tr } from "@/i18n/tr";
 
 interface OnboardingTourProps {
-  page: "home" | "dashboard";
+  page: "home" | "dashboard" | "scan";
 }
 
 function TourContent({ page }: OnboardingTourProps) {
@@ -24,7 +24,7 @@ function TourContent({ page }: OnboardingTourProps) {
   useEffect(() => {
     if (!mounted) return;
 
-    const tourKey = `healthscan_tour_${page}_v_final`;
+    const tourKey = `healthscan_tour_${page}_v5_scan`; // Incrementing version to include Scan page tour
     const hasSeenTour = localStorage.getItem(tourKey);
     const forceTour = searchParams.get("tour") === "true";
 
@@ -59,7 +59,8 @@ function TourContent({ page }: OnboardingTourProps) {
               title: tr.tour.home.ctaTitle,
             },
           ]
-        : [
+        : page === "dashboard"
+          ? [
             {
               target: "body",
               content: tr.tour.dashboard.intro,
@@ -86,6 +87,45 @@ function TourContent({ page }: OnboardingTourProps) {
               target: "#tour-dashboard-new-scan",
               content: tr.tour.dashboard.newScan,
               title: tr.tour.dashboard.newScanTitle,
+            },
+          ]
+        : [
+            {
+              target: "body",
+              content: tr.tour.scan.intro,
+              title: tr.tour.scan.introTitle,
+              placement: "center",
+            },
+            {
+              target: "#tour-scan-upload",
+              content: tr.tour.scan.upload,
+              title: tr.tour.scan.uploadTitle,
+              disableBeacon: true,
+            },
+            {
+              target: "#tour-scan-ocr",
+              content: tr.tour.scan.ocr,
+              title: tr.tour.scan.ocrTitle,
+            },
+            {
+              target: "#tour-scan-name",
+              content: tr.tour.scan.name,
+              title: tr.tour.scan.nameTitle,
+            },
+            {
+              target: "#tour-scan-analyze",
+              content: tr.tour.scan.analyze,
+              title: tr.tour.scan.analyzeTitle,
+            },
+            {
+              target: "#tour-scan-preview",
+              content: tr.tour.scan.preview,
+              title: tr.tour.scan.previewTitle,
+            },
+            {
+              target: "#tour-scan-categories",
+              content: tr.tour.scan.categories,
+              title: tr.tour.scan.categoriesTitle,
             },
           ];
 
